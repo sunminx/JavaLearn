@@ -91,3 +91,23 @@ Synchronized是基于操作系统实现加锁（1.6以后锁升级过程，现�
 lock.lock() lock.tryLock() lock.tryLock(time, timeUnit)。
 
 ### condition——ReentrantLock的线程协调工具
+类似于synchronized+object.wait/notify/notifyAll 组合 实现 线程之间互相通知。
+ReentrantLock + condition.await/sign/signAll 也可以实现线程之间协调。
+线程在临界区内可以主动释放锁（执行条件不成熟）。后面休眠的线程可以被唤醒。
+
+## Concurrent 并发集合工具包
+
+| interface | no-thread-safe | thread-safe        |
+|-----------| ------------ |--------------------|
+| List      | ArrayList | CopyOnWriteList    |
+| Map       | HashMap      | ConcurrentHashMap  |
+| Set | HashSet/TreeSet | CopyOnWriteSet |
+| Queue | ArrayDeque/LinkedList | ArrayBlockingQueue/LinkedBlockingQueue |
+| Deque | ArrayDeque/LinkedList | LinkedBlockingDeque |
+
+**Collections.synchronizedMap**工具类可以将非线程安全集合转换成线程安全集合。但是
+这个方法是一个包装类，对所有对读写方法加synchronized锁。所以性能很差，一般不推荐使用。
+
+## Atomic
+java.util.concurrent.Atomic包内提供的线程安全版本的基础数据类型。
+基于CAS实现线程安全的读写。
