@@ -111,3 +111,42 @@ ReentrantLock + condition.await/sign/signAll 也可以实现线程之间协调�
 ## Atomic
 java.util.concurrent.Atomic包内提供的线程安全版本的基础数据类型。
 基于CAS实现线程安全的读写。
+
+## ForkJoinPool
+fork/join线程池，接受一个任务，可以将任务拆分成小规模的子任务，最终多个线程并行跑多个任务。
+利用多核进行加速。
+
+## ThreadLocal
+一种线程安全的变量存储读取方式（变量本质存储在线程对象本地）。
+
+```java
+// threadLocal写入变量方法
+// 1. 首先获取线程对象的存储map（如果没有会初始化）
+// 2. 然后(threadLocal, value)写入map
+public void set(T value) {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null) {
+        map.set(this, value);
+    } else {
+        createMap(t, value);
+    }
+}
+
+// 从threadLocal中获取当前线程存储的变量
+// 1. 从Thread变量中获取存储map 
+// 2. 以threadLocal为key从map中查询值
+public T get() {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null) {
+        ThreadLocalMap.Entry e = map.getEntry(this);
+        if (e != null) {
+            @SuppressWarnings("unchecked")
+            T result = (T)e.value;
+            return result;
+        }
+    }
+    return setInitialValue();
+}
+```
