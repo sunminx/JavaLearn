@@ -52,9 +52,9 @@ public class ForkJoinDemo {
     static class SumTask extends RecursiveTask<Long> {
         private static final int THRESHOLD = 500;
 
-        private long[] nums;
-        private int start;
-        private int end;
+        private final long[] nums;
+        private final int start;
+        private final int end;
 
         public SumTask(long[] nums, int start, int end) {
             this.nums = nums;
@@ -82,7 +82,7 @@ public class ForkJoinDemo {
             int mid = start + (end - start) / 2;
 
             SumTask sumTask1 = new SumTask(nums, start, mid);
-            SumTask sumTask2 = new SumTask(nums, mid + 1, end);
+            SumTask sumTask2 = new SumTask(nums, mid, end);
 
             invokeAll(sumTask1, sumTask2);
 

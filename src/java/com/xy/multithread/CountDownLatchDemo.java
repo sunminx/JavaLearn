@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CountDownLatchDemo implements Runnable {
 
-    private CountDownLatch latch = new CountDownLatch(10);
-    private List<Integer> nums = new ArrayList<>(1000000);
-    private AtomicInteger sum = new AtomicInteger(0);
+    private final CountDownLatch latch = new CountDownLatch(10);
+    private final List<Integer> nums = new ArrayList<>(1000000);
+    private final AtomicInteger sum = new AtomicInteger(0);
 
     {
         for (int i = 0; i < 1000000; i++) {
